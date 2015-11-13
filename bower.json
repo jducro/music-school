@@ -1,0 +1,28 @@
+{
+  "name": "music_school",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "1.4.7",
+    "bootstrap": "~3.3.5",
+    "angular-route": "~1.4.7"
+  },
+  "appPath": "web/app",
+  "moduleName": "app",
+  "authors": [
+    "Julien Ducro <julien@ducro.fr>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "resolutions": {
+    "angular": "1.4.7"
+  }
+}

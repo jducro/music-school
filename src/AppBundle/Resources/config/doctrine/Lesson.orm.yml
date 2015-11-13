@@ -1,0 +1,27 @@
+AppBundle\Entity\Lesson:
+  type: entity
+  table: lesson
+  id:
+    id:
+      type: integer
+      generator: { strategy: AUTO }
+  fields:
+    name:
+      type: string
+      length: 255
+    description:
+      type: text
+      nullable: true
+    image_url:
+      type: string
+      length: 255
+      nullable: true
+  manyToOne:
+    instrument:
+      targetEntity: Instrument
+      inversedBy: lessons
+      fetch: EAGER
+    level:
+      targetEntity: Level
+      inversedBy: lessons
+      fetch: EAGER

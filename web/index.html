@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+<head>
+	<meta charset="utf-8">
+	<title>My HTML File</title>
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="css/app.css">
+	<link rel="stylesheet" href="css/lib/font-awesome.css">
+</head>
+<body>
+<top-nav></top-nav>
+<div id="page-wrapper" class="container nav-small" version-check>
+	<div ng-view autoscroll="true"></div>
+</div>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="app.module.js"></script>
+<script src="app/layout/directives/topNav.js"></script>
+<script src="app/lessons/controllers/lessonsController.js"></script>
+</body>
+</html>

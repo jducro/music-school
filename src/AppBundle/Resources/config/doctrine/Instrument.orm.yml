@@ -1,0 +1,15 @@
+AppBundle\Entity\Instrument:
+  type: entity
+  table: instrument
+  id:
+    id:
+      type: integer
+      generator: { strategy: AUTO }
+  fields:
+    name:
+      type: string
+      length: 255
+  oneToMany:
+    lessons:
+      targetEntity: Lesson
+      mappedBy: instrument
