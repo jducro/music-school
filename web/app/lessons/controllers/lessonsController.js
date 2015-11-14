@@ -1,5 +1,5 @@
 (function () {
-  angular.module('app.lessons', [])
+  angular.module('app.lessons')
     .controller('LessonsCtrl', function ($scope) {
 
     });

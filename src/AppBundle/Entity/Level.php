@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use JMS\Serializer\Annotation\MaxDepth;
+
 /**
  * Level
  */
@@ -16,7 +18,19 @@ class Level
      * @var string
      */
     private $name;
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+	 * @MaxDepth(1)
+     */
+    private $lessons;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->lessons = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -26,6 +40,16 @@ class Level
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -40,28 +64,6 @@ class Level
         $this->name = $name;
 
         return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $lessons;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->lessons = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

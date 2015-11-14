@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use JMS\Serializer\Annotation\MaxDepth;
+
 /**
  * Instrument
  */
@@ -16,7 +18,19 @@ class Instrument
      * @var string
      */
     private $name;
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+	 * @MaxDepth(1)
+     */
+    private $lessons;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->lessons = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -26,6 +40,16 @@ class Instrument
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -42,16 +66,6 @@ class Instrument
         return $this;
     }
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
 	/**
 	 * @return string
 	 */
@@ -59,18 +73,6 @@ class Instrument
 	{
 		return $this->name;
 	}
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $lessons;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->lessons = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add lesson

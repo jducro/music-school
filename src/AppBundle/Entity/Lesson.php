@@ -1,7 +1,6 @@
 <?php
 
 namespace AppBundle\Entity;
-use JMS\Serializer\Annotation\MaxDepth;
 
 /**
  * Lesson
@@ -28,13 +27,11 @@ class Lesson
 
     /**
      * @var \AppBundle\Entity\Instrument
-	 * @MaxDepth(1)
-     */
+	 */
     private $instrument;
     /**
      * @var \AppBundle\Entity\Level
-	 * @MaxDepth(1)
-     */
+	 */
     private $level;
 
     /**
