@@ -3,6 +3,9 @@ body {
   color: #221f1f;
   background-color: #FFFFFF;
 }
+a {
+  color: #221f1f;
+}
 .btn {
   color: white;
   background: #208a0b;
@@ -54,9 +57,16 @@ top-nav nav.navbar-default .navbar-nav > li > a {
   color: white;
   padding: 5px 10px;
   margin: 0 10px;
+  display: inline-block;
 }
 top-nav nav.navbar-default .navbar-nav > li.active > a{
   color: white;
+  background: #35424c;
+  box-shadow: 1px 1px 1px black inset,
+  0 1px 0 rgba( 255, 255, 255, 0.4);
+}
+top-nav nav.navbar-default .navbar-nav > li > a:hover{
+  color: #AAA;
   background: #35424c;
   box-shadow: 1px 1px 1px black inset,
   0 1px 0 rgba( 255, 255, 255, 0.4);
@@ -89,6 +99,28 @@ top-nav nav.navbar-default .navbar-collapse .btn {
   background: #BB0000;
   background: linear-gradient(#CB0000, #A80000);
 }
+.lessons-index .lessons-intro {
+  min-height: 223px;
+}
 level-block:nth-child(2n) > div{
   background-color: #EDEDED;
+}
+level-block > div{
+  min-height: 380px;
+}
+level-block h3 {
+  min-height: 99px;
+  line-height: 99px;
+}
+level-block .lesson-image {
+  border-radius: 50%;
+  background-clip: padding-box;
+  background-size: cover;
+  height: 143px;
+  width: 143px;
+  margin: auto;
+}
+level-block .lesson-title {
+  display: inline-block;
+  margin-top: 30px;
 }

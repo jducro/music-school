@@ -8,6 +8,8 @@
     $routeProvider.when('/', {
       templateUrl: 'app/lessons/views/index.html',
       controller: 'LessonsCtrl'
+    }).otherwise({
+      redirectTo: '/'
     });
   });
 })();

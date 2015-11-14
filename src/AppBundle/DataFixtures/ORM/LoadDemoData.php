@@ -41,7 +41,7 @@ class LoadDemoData implements FixtureInterface
 		$instruments[] = $bass;
 
 		$drums = new Instrument();
-		$drums->setName('Baterie');
+		$drums->setName('Batterie');
 
 		$manager->persist($drums);
 

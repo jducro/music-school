@@ -1,10 +1,15 @@
-<div class="container-fluid">
-	<div class="row text-center">
-		<div class="col-md-12">
-			<h4>Nos cours pour débutants</h4>
-		</div>
-		<div class="col-md-2" ng-repeat="lesson in lessons">
-			{{lesson.instrument.name}}
+<div class="row">
+	<div class="container">
+		<div class="row text-center">
+			<div class="col-md-12">
+				<h3>{{blockTitle}}</h3>
+			</div>
+			<div class="col-md-2" ng-repeat="lesson in lessons">
+				<a href="#/lesson/{{lesson.id}}">
+					<div class="lesson-image img-circle" style="background-image: url('/img/lessons/{{lesson.id}}.png')"></div>
+					<span class="lesson-title">{{lesson.instrument.name}}</span>
+				</a>
+			</div>
 		</div>
 	</div>
 </div>

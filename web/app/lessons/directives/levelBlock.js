@@ -12,7 +12,6 @@
           },
           link: function(scope) {
             Lesson.findByLevelId(scope.levelId).then(function (result) {
-              console.log(result);
               scope.lessons = result.data;
             });
           }
