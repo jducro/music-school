@@ -28,7 +28,7 @@ Création du jeu de test
     php app/console doctrine:fixtures:load
     
 #### Documentation 
-Documentation de l'API accessible à [/api/doc](http://julien.ducro.fr/music-school/web/api.doc)
+Documentation de l'API accessible à [/api/doc](http://julien.ducro.fr/music-school/web/api/doc)
 
 
 [Frontend](http://julien.ducro.fr/music-school/web/index.html)
