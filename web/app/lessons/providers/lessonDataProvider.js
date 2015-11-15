@@ -11,8 +11,8 @@
           findAll: function () {
             return $http.get(api_root);
           },
-          findByLevelId: function (levelId) {
-            return $http.get(api_root + '/level/' + levelId);
+          findByLevel: function (levelSlug) {
+            return $http.get(api_root + '/level/' + levelSlug);
           }
         }
       }

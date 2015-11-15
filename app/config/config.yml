@@ -80,3 +80,9 @@ swiftmailer:
     spool:     { type: memory }
 
 nelmio_api_doc: ~
+
+# Stof\DoctrineExtensionsBundle configuration
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true

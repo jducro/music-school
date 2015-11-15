@@ -2,8 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Lesson;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use JMS\Serializer\Annotation\MaxDepth;
 
 /**
  * User
@@ -37,6 +37,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * @var \Doctrine\Common\Collections\Collection
+	 * @MaxDepth(1)
      */
     private $lessons;
 
@@ -221,6 +222,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function addLesson(Lesson $lesson)
     {
+		$lesson->addUser($this);
         $this->lessons[] = $lesson;
 
         return $this;

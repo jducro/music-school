@@ -23,6 +23,10 @@ class Level
 	 * @MaxDepth(1)
      */
     private $lessons;
+    /**
+     * @var string
+     */
+    private $slug;
 
     /**
      * Constructor
@@ -107,4 +111,28 @@ class Level
 	{
 		return $this->name;
 	}
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Level
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
 }

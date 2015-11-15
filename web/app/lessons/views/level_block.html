@@ -7,7 +7,7 @@
 			<div class="col-md-2 col-sm-4 lesson" ng-repeat="lesson in lessons">
 				<a href="#/lesson/{{lesson.id}}">
 					<!--<div class="lesson-image img-circle" style="background-image: url('/img/lessons/{{lesson.id}}.png')"></div>-->
-					<img src="/img/lessons/{{lesson.id}}.png" class="img-responsive img-circle center-block" alt="">
+					<img ng-src="{{lesson.image_url}}" class="img-responsive img-circle center-block" alt="">
 					<span class="lesson-title">{{lesson.instrument.name}}</span>
 				</a>
 			</div>

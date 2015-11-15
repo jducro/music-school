@@ -2,6 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Instrument;
+use AppBundle\Entity\Level;
+use AppBundle\Entity\User;
+
 /**
  * Lesson
  */
@@ -26,13 +30,26 @@ class Lesson
     private $image_url;
 
     /**
-     * @var \AppBundle\Entity\Instrument
+     * @var Instrument
 	 */
     private $instrument;
     /**
-     * @var \AppBundle\Entity\Level
+     * @var Level
 	 */
     private $level;
+
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	private $users;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -119,7 +136,7 @@ class Lesson
     /**
      * Get instrument
      *
-     * @return \AppBundle\Entity\Instrument
+     * @return Instrument
      */
     public function getInstrument()
     {
@@ -129,11 +146,11 @@ class Lesson
     /**
      * Set instrument
      *
-     * @param \AppBundle\Entity\Instrument $instrument
+     * @param Instrument $instrument
      *
      * @return Lesson
      */
-    public function setInstrument(\AppBundle\Entity\Instrument $instrument = null)
+    public function setInstrument(Instrument $instrument = null)
     {
         $this->instrument = $instrument;
 
@@ -143,7 +160,7 @@ class Lesson
     /**
      * Get level
      *
-     * @return \AppBundle\Entity\Level
+     * @return Level
      */
     public function getLevel()
     {
@@ -153,11 +170,11 @@ class Lesson
     /**
      * Set level
      *
-     * @param \AppBundle\Entity\Level $level
+     * @param Level $level
      *
      * @return Lesson
      */
-    public function setLevel(\AppBundle\Entity\Level $level = null)
+    public function setLevel(Level $level = null)
     {
         $this->level = $level;
 
@@ -171,27 +188,15 @@ class Lesson
 	{
 		return $this->name;
 	}
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $users;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add user
      *
-     * @param \AppBundle\Entity\User $user
+     * @param User $user
      *
      * @return Lesson
      */
-    public function addUser(\AppBundle\Entity\User $user)
+    public function addUser(User $user)
     {
         $this->users[] = $user;
 
@@ -201,9 +206,9 @@ class Lesson
     /**
      * Remove user
      *
-     * @param \AppBundle\Entity\User $user
+     * @param User $user
      */
-    public function removeUser(\AppBundle\Entity\User $user)
+    public function removeUser(User $user)
     {
         $this->users->removeElement($user);
     }

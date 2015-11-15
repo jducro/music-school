@@ -17,11 +17,11 @@ class LessonRepository extends EntityRepository
 	 * @param $level_id
 	 * @return \Doctrine\Common\Collections\Collection
 	 */
-	public function getLessonsByLevelId($level_id)
+	public function getLessonsByLevel($level_slug)
 	{
 		$em = $this->getEntityManager();
 		$level = $em->getRepository('AppBundle:Level')
-			->find($level_id);
+			->findOneBy(['slug' => $level_slug]);
 
 		if (!$level) {
 			throw new NotFoundHttpException('Level not found');
@@ -34,19 +34,21 @@ class LessonRepository extends EntityRepository
 	 * @param $level_id
 	 * @return \Doctrine\Common\Collections\Collection
 	 */
-	public function getTopLessonsByLevelId($level_id)
+	public function getTopLessonsByLevel($level_slug)
 	{
 		$qb = $this
 			->createQueryBuilder('l')
-			->leftJoin('l.users');
-		$em = $this->getEntityManager();
-		$level = $em->getRepository('AppBundle:Level')
-			->find($level_id);
+			->select('l')
+			->addSelect('COUNT(u.id) AS HIDDEN nb_users')
+			->leftJoin('l.users', 'u')
+			->innerJoin('l.level', 'le')
+			->where('le.slug = :level_slug')
+			->setParameter('level_slug', $level_slug)
+			->groupBy('l.id')
+			->addOrderBy('nb_users', 'DESC')
+			->setMaxResults(6);
 
-		if (!$level) {
-			throw new NotFoundHttpException('Level not found');
-		}
 
-		return $level->getLessons();
+		return $qb->getQuery()->getResult();
 	}
 }

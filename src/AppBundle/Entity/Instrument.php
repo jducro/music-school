@@ -23,6 +23,10 @@ class Instrument
 	 * @MaxDepth(1)
      */
     private $lessons;
+    /**
+     * @var string
+     */
+    private $slug;
 
     /**
      * Constructor
@@ -106,5 +110,29 @@ class Instrument
     public function getLessons()
     {
         return $this->lessons;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Instrument
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }

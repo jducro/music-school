@@ -8,10 +8,10 @@
           templateUrl: 'app/lessons/views/level_block.html',
           scope: {
             blockTitle: '@',
-            levelId: '='
+            level: '@'
           },
           link: function(scope) {
-            Lesson.findByLevelId(scope.levelId).then(function (result) {
+            Lesson.findByLevel(scope.level).then(function (result) {
               scope.lessons = result.data;
             });
           }
