@@ -1,5 +1,6 @@
 AppBundle\Entity\Lesson:
   type: entity
+  repositoryClass: AppBundle\Entity\LessonRepository
   table: lesson
   id:
     id:
@@ -25,3 +26,7 @@ AppBundle\Entity\Lesson:
       targetEntity: Level
       inversedBy: lessons
       fetch: EAGER
+  manyToMany:
+    users:
+      targetEntity: User
+      mappedBy: users

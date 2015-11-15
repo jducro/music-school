@@ -5,9 +5,11 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Lesson;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -16,6 +18,7 @@ class LessonsController extends Controller
 {
 	/**
 	 * @Route("/api/lessons", name="lessons")
+	 * @Method({"GET"})
 	 * @ApiDoc(
 	 *   resource=true,
 	 *   description="Get all lessons",
@@ -27,7 +30,6 @@ class LessonsController extends Controller
 		$serializer = SerializerBuilder::create()->build();
 
 		$lessons = $this->getDoctrine()
-			->getManager()
 			->getRepository('AppBundle:Lesson')
 			->findAll();
 
@@ -38,6 +40,7 @@ class LessonsController extends Controller
 
 	/**
 	 * @Route("/api/lessons/{id}", requirements={"id" = "\d+"}, name="lesson_by_id")
+	 * @Method({"GET"})
 	 * @ApiDoc(
 	 *   resource=true,
 	 *   description="Get Lessons by id",
@@ -50,7 +53,6 @@ class LessonsController extends Controller
 		$serializer = SerializerBuilder::create()->build();
 
 		$lesson = $this->getDoctrine()
-			->getManager()
 			->getRepository('AppBundle:Lesson')
 			->find($id);
 
@@ -60,16 +62,25 @@ class LessonsController extends Controller
 
 	/**
 	 * @Route("/api/lessons/level/{level_id}", requirements={"level_id" = "\d+"}, name="lessons_by_level")
+	 * @Method({"GET"})
 	 * @ApiDoc(
 	 *   resource=true,
 	 *   description="Get Lessons list by level id",
 	 * )
 	 * @param integer $level_id Level Id
-	 * @return JsonResponse $response List of lessons
+	 * @return JsonResponse|Response $response List of lessons
 	 */
 	public function getByLevelAction($level_id)
 	{
 		$serializer = SerializerBuilder::create()->build();
+
+		$lessons = $this->getDoctrine()
+			->getRepository('AppBundle:Lesson')
+			->getLessonsByLevelId($level_id);
+
+		$json = $serializer->serialize($lessons, 'json', SerializationContext::create()->enableMaxDepthChecks());
+		return new Response($json);
+	}
 
 		$em = $this->getDoctrine()
 			->getManager();
