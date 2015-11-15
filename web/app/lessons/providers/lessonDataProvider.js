@@ -3,7 +3,7 @@
     .factory('Lesson', [
       '$http',
       function LessonFactory($http) {
-        var api_root = '/api/lessons';
+        var api_root = 'api/lessons';
         return {
           find: function (lessonId) {
             return $http.get(api_root + '/' + lessonId);
