@@ -53,6 +53,9 @@ top-nav nav .navbar-brand h1 {
   line-height: 1;
   color: #ffffff;
 }
+top-nav nav .navbar-header .navbar-toggle {
+ margin-top: 30px;
+}
 
 top-nav nav .navbar-brand span.undertitle {
   font-size: 12px;
@@ -145,7 +148,7 @@ level-block .lesson-title {
 }
 
 footer-nav nav.navbar {
-  height: 116px;
+  min-height: 116px;
   padding: 20px;
 }
 
