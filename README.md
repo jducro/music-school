@@ -38,8 +38,6 @@ Documentation de l'API accessible à [/api/doc](http://julien.ducro.fr/music-sch
 
 #### Installation des dépendances
 
-
-    cd web
     bower install
     
     
