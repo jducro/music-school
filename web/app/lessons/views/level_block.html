@@ -4,9 +4,10 @@
 			<div class="col-md-12">
 				<h3>{{blockTitle}}</h3>
 			</div>
-			<div class="col-md-2" ng-repeat="lesson in lessons">
+			<div class="col-md-2 col-sm-4 lesson" ng-repeat="lesson in lessons">
 				<a href="#/lesson/{{lesson.id}}">
-					<div class="lesson-image img-circle" style="background-image: url('/img/lessons/{{lesson.id}}.png')"></div>
+					<!--<div class="lesson-image img-circle" style="background-image: url('/img/lessons/{{lesson.id}}.png')"></div>-->
+					<img src="/img/lessons/{{lesson.id}}.png" class="img-responsive img-circle center-block" alt="">
 					<span class="lesson-title">{{lesson.instrument.name}}</span>
 				</a>
 			</div>
