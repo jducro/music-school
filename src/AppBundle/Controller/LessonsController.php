@@ -3,18 +3,20 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Lesson;
+use FOS\RestBundle\Controller\Annotations\RequestParam;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Request\ParamFetcher;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class LessonsController extends Controller
+class LessonsController extends FOSRestController
 {
 	/**
 	 * @Route("/api/lessons", name="lessons")
@@ -104,4 +106,50 @@ class LessonsController extends Controller
 		return new Response($json);
 	}
 
+	/**
+	 * @Route("/api/lessons", name="create_lesson")
+	 * @Method({"POST"})
+	 * @ApiDoc(
+	 *   resource=true,
+	 *   description="Create a new lesson",
+	 * )
+	 * @param ParamFetcher $paramFetcher Paramfetcher
+	 * @RequestParam(name="name", nullable=false, strict=true, description="Lesson name.")
+	 * @RequestParam(name="description", nullable=true, strict=true, description="Lesson description.")
+	 * @RequestParam(name="image_url", nullable=true, strict=true, description="Lesson image.")
+	 * @RequestParam(name="instrument", nullable=true, strict=true, description="Lesson instrument.")
+	 * @RequestParam(name="level", nullable=true, strict=true, description="Lesson level.")
+	 * @return JsonResponse|Response $response List of lessons
+	 */
+	public function createLessonAction(ParamFetcher $paramFetcher)
+	{
+		$em = $this->getDoctrine()
+			->getManager();
+		$level = $em->getRepository('AppBundle:Level')
+			->findOneBy(['slug' => $paramFetcher->get('level')]);
+
+		if (!$level) {
+			throw new NotFoundHttpException('Level not found');
+		}
+		$instrument = $em->getRepository('AppBundle:Instrument')
+			->findOneBy(['slug' => $paramFetcher->get('instrument')]);
+
+		if (!$instrument) {
+			throw new NotFoundHttpException('Instrument not found');
+		}
+
+		$lesson = new Lesson();
+		$lesson->setName($paramFetcher->get('name'));
+		$lesson->setDescription($paramFetcher->get('description'));
+		$lesson->setImageUrl($paramFetcher->get('image_url'));
+		$lesson->setInstrument($instrument);
+		$lesson->setLevel($level);
+
+		$em->persist($lesson);
+		$em->flush();
+
+		$serializer = SerializerBuilder::create()->build();
+		$json = $serializer->serialize($lesson, 'json', SerializationContext::create()->enableMaxDepthChecks());
+		return new Response($json);
+	}
 }

@@ -79,6 +79,10 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
+fos_rest:
+    disable_csrf_role: ROLE_API
+    param_fetcher_listener: true
+
 nelmio_api_doc: ~
 
 # Stof\DoctrineExtensionsBundle configuration
