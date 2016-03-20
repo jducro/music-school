@@ -109,12 +109,12 @@ class StripePaymentGateway implements PaymentGatewayServiceInterface
      */
     public function chargeUser(User $user, float $amount, $description)
     {
-        $result = \Stripe\Charge::create(array(
+        $result = \Stripe\Charge::create([
             "amount"        => round($amount * 100),
             "currency"      => "gbp",
             "customer"      => $this->getCustomerId($user),
             "description"   => $description,
-        ));
+        ]);
 
         if ($result->status != "succeeded") {
             throw new Exception("stripe payment failed");

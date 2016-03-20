@@ -36,6 +36,21 @@ class LessonsController extends FOSRestController
 			->getRepository('AppBundle:Lesson')
 			->find($id);
 
+		if ($lesson instanceof Lesson && null !== $lesson->getName()) {
+			$lesson = [
+				'id' => $lesson->getId(),
+				'name' => $lesson->getName(),
+				'description' => $lesson->getDescription(),
+				'image_url' => $lesson->getImageUrl(),
+				'instrument' => [
+					'name' => $lesson->getInstrument()->getName()
+				],
+				'level' => [
+					'name' => $lesson->getLevel()->getName()
+				],
+			];
+		}
+
 		$json = $serializer->serialize($lesson, 'json', SerializationContext::create()->enableMaxDepthChecks());
 		return new Response($json);
 	}
@@ -59,9 +74,24 @@ class LessonsController extends FOSRestController
 	{
 		$serializer = SerializerBuilder::create()->build();
 
-		$lessons = $this->getDoctrine()
+		$levelLessons = $this->getDoctrine()
 			->getRepository('AppBundle:Lesson')
 			->getLessonsByLevel($level_slug);
+
+		$lessons = [];
+		foreach ($levelLessons as $lesson) {
+			if ($lesson instanceof Lesson && null !== $lesson->getName()) {
+				$lessons[] = [
+					'id' => $lesson->getId(),
+					'name' => $lesson->getName(),
+					'description' => $lesson->getDescription(),
+					'image_url' => $lesson->getImageUrl(),
+					'instrument' => [
+						'name' => $lesson->getInstrument()->getName()
+					]
+				];
+			}
+		}
 
 		$json = $serializer->serialize($lessons, 'json', SerializationContext::create()->enableMaxDepthChecks());
 		return new Response($json);
