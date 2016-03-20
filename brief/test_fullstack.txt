@@ -1,0 +1,28 @@
+Goal:
+  The goal is to create a full application using restful API.
+
+Context:
+  We want to create an application for music lessons. A lesson can or cannot be teached at different level.
+You have to be logged in to consult a lesson (do not manage the connection / user part, just assume they are managed somewhere)
+
+Back:
+ Create the following API’s:
+   - The 6 most used lessons in each level
+   - List all the lessons available for a given level
+   - Get detail of a lesson for a given id + level
+   - Create a lesson (title only do not manage image upload, you will integrate them directly in your application.)
+
+Front:
+ Create one angular application :
+	- integrate the psd in responsive
+	- show lessons thanks to the API. Must match the PSD provided.
+
+Send a link github with a readme to explain how launch the application
+
+
+Bonus:
+  Front: Use sass
+  Back: Create a security on your API
+
+
+We expect to see quality code, well decoupled and to understand how you think. Surprise us!

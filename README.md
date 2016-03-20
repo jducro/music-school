@@ -40,3 +40,6 @@ API doc is available at [/api/doc](http://julien.ducro.fr/music-school/web/api/d
 
     bower install
     
+[Original Brief](brief/test_fullstack.txt)
+
+[PSD Design](brief/cours-musique-cours.psd.zip)
