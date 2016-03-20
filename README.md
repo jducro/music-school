@@ -34,9 +34,9 @@ API doc is available at [/api/doc](http://julien.ducro.fr/music-school/web/api/d
 [Frontend](http://julien.ducro.fr/music-school/web/index.html)
 --------
 
-### Mise en place :
+### Setup :
 
-#### Installation des dépendances
+#### Dependencies installation
 
     bower install
     
