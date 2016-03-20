@@ -1,0 +1,16 @@
+{
+  "name": "music-school",
+  "version": "0.1.0",
+  "description": "Dummy website using Symfony 2 and Bootstrap",
+  "main": "app.php",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Jducro",
+  "license": "MIT",
+  "devDependencies": {
+    "bower": "1.6.5"
+  }
+}
