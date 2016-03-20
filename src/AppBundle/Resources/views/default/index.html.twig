@@ -1,0 +1,10 @@
+{% extends 'AppBundle::layouts/base.html.twig' %}
+
+{% block body %}
+<body>
+<top-nav></top-nav>
+<div id="page-wrapper" class="container-fluid nav-small" version-check>
+    <div ng-view autoscroll="true"></div>
+</div>
+<footer-nav></footer-nav>
+{% endblock %}

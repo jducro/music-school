@@ -19,29 +19,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class LessonsController extends FOSRestController
 {
 	/**
-	 * @Route("/api/lessons", name="lessons")
-	 * @Method({"GET"})
-	 * @ApiDoc(
-	 *   resource=true,
-	 *   description="Get all lessons",
-	 * )
-	 * @return JsonResponse $response Lessons list
-	 */
-	public function getAllAction()
-	{
-		$serializer = SerializerBuilder::create()->build();
-
-		$lessons = $this->getDoctrine()
-			->getRepository('AppBundle:Lesson')
-			->findAll();
-
-		$json = $serializer->serialize($lessons, 'json', SerializationContext::create()->enableMaxDepthChecks());
-		return new Response($json);
-	}
-
-
-	/**
-	 * @Route("/api/lessons/{id}", requirements={"id" = "\d+"}, name="lesson_by_id")
+	 * @Route("/api/lessons/{id}", requirements={"id" = "\d+"}, name="lesson_by_id", options={"expose"=true})
 	 * @Method({"GET"})
 	 * @ApiDoc(
 	 *   resource=true,
@@ -63,7 +41,12 @@ class LessonsController extends FOSRestController
 	}
 
 	/**
-	 * @Route("/api/lessons/level/{level_slug}", requirements={"level_slug" = "[a-z]+"}, name="lessons_by_level")
+	 * @Route(
+	 *     "/api/lessons/level/{level_slug}",
+	 *     requirements={"level_slug" = "[a-z]+"},
+	 *     name="lessons_by_level",
+	 *     options={"expose"=true}
+	 * )
 	 * @Method({"GET"})
 	 * @ApiDoc(
 	 *   resource=true,
@@ -85,7 +68,12 @@ class LessonsController extends FOSRestController
 	}
 
 	/**
-	 * @Route("/api/lessons/level/{level_slug}/top", requirements={"level_slug" = "[a-z]+"}, name="top_lessons_by_level")
+	 * @Route(
+	 *     "/api/lessons/level/{level_slug}/top",
+	 *     requirements={"level_slug" = "[a-z]+"},
+	 *     name="top_lessons_by_level",
+	 *     options={"expose"=true}
+	 *	 )
 	 * @Method({"GET"})
 	 * @ApiDoc(
 	 *   resource=true,
@@ -150,6 +138,38 @@ class LessonsController extends FOSRestController
 
 		$serializer = SerializerBuilder::create()->build();
 		$json = $serializer->serialize($lesson, 'json', SerializationContext::create()->enableMaxDepthChecks());
+		return new Response($json);
+	}
+
+	/**
+	 * @Route("/api/lessons", name="lessons", options={"expose"=true})
+	 * @Method({"GET"})
+	 * @ApiDoc(
+	 *   resource=true,
+	 *   description="Get all lessons",
+	 * )
+	 * @return array Lessons list
+	 */
+	public function getAllAction()
+	{
+		$serializer = SerializerBuilder::create()->build();
+
+		$allLessons = $this->getDoctrine()
+			->getRepository('AppBundle:Lesson')
+			->findAll();
+
+		$lessons = [];
+		foreach ($allLessons as $lesson) {
+			if ($lesson instanceof Lesson && null !== $lesson->getName()) {
+				$lessons[] = [
+					'id' => $lesson->getId(),
+					'name' => $lesson->getName(),
+					'description' => $lesson->getDescription(),
+				];
+			}
+		}
+
+		$json = $serializer->serialize($lessons, 'json', SerializationContext::create()->enableMaxDepthChecks());
 		return new Response($json);
 	}
 }

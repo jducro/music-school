@@ -2,249 +2,215 @@
 
 namespace AppBundle\Entity;
 
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
-use JMS\Serializer\Annotation\MaxDepth;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * User
+ *
+ * @ORM\Table(name="app_users")
+ * @ORM\Entity
  */
-class User implements AdvancedUserInterface, \Serializable
+class User
 {
-	/**
-	 * @var integer
-	 */
-	private $id;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
 
-	/**
-	 * @var string
-	 */
-	private $username;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=25, unique=true)
+     */
+    private $username;
 
-	/**
-	 * @var string
-	 */
-	private $password;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=64)
+     */
+    private $password;
 
-	/**
-	 * @var string
-	 */
-	private $email;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=60, unique=true)
+     */
+    private $email;
 
-	/**
-	 * @var boolean
-	 */
-	private $is_active;
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $is_active;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-	 * @MaxDepth(1)
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Lesson", inversedBy="users")
+     * @ORM\JoinTable(name="users_lessons",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="lesson_id", referencedColumnName="id")
+     *   }
+     * )
      */
     private $lessons;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $stripeCustomerId = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $braintreeCustomerId = null;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lessons = new ArrayCollection();
     }
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-
-	/**
-	 * Get username
-	 *
-	 * @return string
-	 */
-	public function getUsername()
-	{
-		return $this->username;
-	}
-
-	/**
-	 * Set username
-	 *
-	 * @param string $username
-	 *
-	 * @return User
-	 */
-	public function setUsername($username)
-	{
-		$this->username = $username;
-
-		return $this;
-	}
-
-	/**
-	 * Get password
-	 *
-	 * @return string
-	 */
-	public function getPassword()
-	{
-		return $this->password;
-	}
-
-	/**
-	 * Set password
-	 *
-	 * @param string $password
-	 *
-	 * @return User
-	 */
-	public function setPassword($password)
-	{
-		$this->password = $password;
-
-		return $this;
-	}
-
-	/**
-	 * Get email
-	 *
-	 * @return string
-	 */
-	public function getEmail()
-	{
-		return $this->email;
-	}
-
-	/**
-	 * Set email
-	 *
-	 * @param string $email
-	 *
-	 * @return User
-	 */
-	public function setEmail($email)
-	{
-		$this->email = $email;
-
-		return $this;
-	}
-
-	/**
-	 * Get isActive
-	 *
-	 * @return boolean
-	 */
-	public function getIsActive()
-	{
-		return $this->is_active;
-	}
-
-	/**
-	 * Set isActive
-	 *
-	 * @param boolean $isActive
-	 *
-	 * @return User
-	 */
-	public function setIsActive($isActive)
-	{
-		$this->is_active = $isActive;
-
-		return $this;
-	}
-
-	public function getSalt()
-	{
-		// you *may* need a real salt depending on your encoder
-		// see section on salt below
-		return null;
-	}
-
-	public function getRoles()
-	{
-		return array('ROLE_USER');
-	}
-
-	public function eraseCredentials()
-	{
-	}
-
-	public function isAccountNonExpired()
-	{
-		return true;
-	}
-
-	public function isAccountNonLocked()
-	{
-		return true;
-	}
-
-	public function isCredentialsNonExpired()
-	{
-		return true;
-	}
-
-	public function isEnabled()
-	{
-		return $this->is_active;
-	}
-
-	/** @see \Serializable::serialize() */
-	public function serialize()
-	{
-		return serialize(array(
-			$this->id,
-			$this->username,
-			$this->password,
-			$this->is_active,
-		));
-	}
-
-	/** @see \Serializable::unserialize() */
-	public function unserialize($serialized)
-	{
-		list (
-			$this->id,
-			$this->username,
-			$this->password,
-			$this->is_active,
-			) = unserialize($serialized);
-	}
-
     /**
-     * Add lesson
-     *
-     * @param Lesson $lesson
-     *
-     * @return User
+     * @return int
      */
-    public function addLesson(Lesson $lesson)
+    public function getId()
     {
-		$lesson->addUser($this);
-        $this->lessons[] = $lesson;
-
-        return $this;
+        return $this->id;
     }
 
     /**
-     * Remove lesson
-     *
-     * @param Lesson $lesson
+     * @param int $id
      */
-    public function removeLesson(Lesson $lesson)
+    public function setId($id)
     {
-        $this->lessons->removeElement($lesson);
+        $this->id = $id;
     }
 
     /**
-     * Get lessons
-     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsActive()
+    {
+        return $this->is_active;
+    }
+
+    /**
+     * @param boolean $is_active
+     */
+    public function setIsActive($is_active)
+    {
+        $this->is_active = $is_active;
+    }
+
+    /**
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getLessons()
     {
         return $this->lessons;
     }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $lessons
+     */
+    public function setLessons($lessons)
+    {
+        $this->lessons = $lessons;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStripeCustomerId()
+    {
+        return $this->stripeCustomerId;
+    }
+
+    /**
+     * @param mixed $stripeCustomerId
+     */
+    public function setStripeCustomerId($stripeCustomerId)
+    {
+        $this->stripeCustomerId = $stripeCustomerId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBraintreeCustomerId()
+    {
+        return $this->braintreeCustomerId;
+    }
+
+    /**
+     * @param mixed $braintreeCustomerId
+     */
+    public function setBraintreeCustomerId($braintreeCustomerId)
+    {
+        $this->braintreeCustomerId = $braintreeCustomerId;
+    }
+
+
 }
+

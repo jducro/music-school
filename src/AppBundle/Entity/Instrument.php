@@ -2,44 +2,57 @@
 
 namespace AppBundle\Entity;
 
-use JMS\Serializer\Annotation\MaxDepth;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Instrument
+ *
+ * @ORM\Table(name="instrument")
+ * @ORM\Entity
  */
 class Instrument
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-	 * @MaxDepth(1)
-     */
-    private $lessons;
+
     /**
      * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=128)
      */
     private $slug;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Lesson", mappedBy="instrument")
+     */
+    private $lessons;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->lessons = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lessons = new ArrayCollection();
     }
 
     /**
-     * Get id
-     *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -47,8 +60,14 @@ class Instrument
     }
 
     /**
-     * Get name
-     *
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
      * @return string
      */
     public function getName()
@@ -57,64 +76,14 @@ class Instrument
     }
 
     /**
-     * Set name
-     *
      * @param string $name
-     *
-     * @return Instrument
      */
     public function setName($name)
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-	/**
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->name;
-	}
-
-    /**
-     * Add lesson
-     *
-     * @param \AppBundle\Entity\Lesson $lesson
-     *
-     * @return Instrument
-     */
-    public function addLesson(\AppBundle\Entity\Lesson $lesson)
-    {
-        $this->lessons[] = $lesson;
-
-        return $this;
     }
 
     /**
-     * Remove lesson
-     *
-     * @param \AppBundle\Entity\Lesson $lesson
-     */
-    public function removeLesson(\AppBundle\Entity\Lesson $lesson)
-    {
-        $this->lessons->removeElement($lesson);
-    }
-
-    /**
-     * Get lessons
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getLessons()
-    {
-        return $this->lessons;
-    }
-
-    /**
-     * Get slug
-     *
      * @return string
      */
     public function getSlug()
@@ -123,16 +92,28 @@ class Instrument
     }
 
     /**
-     * Set slug
-     *
      * @param string $slug
-     *
-     * @return Instrument
      */
     public function setSlug($slug)
     {
         $this->slug = $slug;
-
-        return $this;
     }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLessons()
+    {
+        return $this->lessons;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $lessons
+     */
+    public function setLessons($lessons)
+    {
+        $this->lessons = $lessons;
+    }
+
 }
+

@@ -1,0 +1,13 @@
+{% extends 'AppBundle:Payment:addCard.html.twig' %}
+
+{% block upper_card_form %}
+<!-- Braintree lib -->
+<script type="text/javascript" src="https://js.braintreegateway.com/v1/braintree.js"></script>
+{% endblock %}
+
+{% block lower_card_form %}
+<script type="text/javascript">
+    var braintree = Braintree.create("MIIBCgKCAQEAn+dIvrAzyUeLzP27jaO5MnXaahPYyvTLdHxsQtFc8oskwaZpxm2XJUMOV0Bl71kEl52p9/7VYhcdujA8bYR9sjIi+D3bgn5xmo5uyviJUeIjTB0Tm+rBd1Xk6iJsUjX+PpmGDdY77yZ45zlfBCqTaIQ4vtknZcntiEEC4gl7M/LigIlW+8HlWxr/YR4qAOd4H4CqCAaIGfNzx9pT5KUrxCZhlekTZPQuJp6iIxJ4RmPruRgllGGkU5w3TBNw1UJ4KysoOIiTjqyaCo4k2t1pCgLR/MqBliA+B8hJtpvJpPYade6Txzr8Fr6o9IyH0QLOScMA9BagD+BeSUkSJoBEuwIDAQAB");
+    braintree.onSubmitEncryptForm('payment-form');
+</script>
+{% endblock %}

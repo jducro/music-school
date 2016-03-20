@@ -4,6 +4,9 @@
     'app.layout',
     'app.lessons'
   ]);
+  app.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+  }]);
   app.config(function ($routeProvider) {
     $routeProvider.when('/', {
       templateUrl: 'app/lessons/views/index.html',

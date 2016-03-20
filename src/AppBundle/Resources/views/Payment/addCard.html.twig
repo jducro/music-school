@@ -1,0 +1,41 @@
+{% extends 'AppBundle:Payment:index.html.twig' %}
+
+
+{% block title %}{{ 'payment.add_card.title'|trans }}{% endblock %}
+
+{% block content %}
+    {% block upper_card_form %}
+    {% endblock %}
+    <p><a href="https://stripe.com/docs/testing" target="_blank">test card details</a></p>
+    <form action="{{ url('payment_add_card') }}" method="POST" id="payment-form">
+        <span class="payment-errors"></span>
+
+        <div class="form-row">
+            <label>
+                <span>{{ 'payment.add_card.card_number'|trans }}</span>
+                <input type="text" size="20" data-stripe="number" autocomplete="off" data-encrypted-name="number"/>
+            </label>
+        </div>
+
+        <div class="form-row">
+            <label>
+                <span>{{ 'payment.add_card.cvc'|trans }}</span>
+                <input type="text" size="4" data-stripe="cvc" autocomplete="off" data-encrypted-name="cvv"/>
+            </label>
+        </div>
+
+        <div class="form-row">
+            <label>
+                <span>{{ 'payment.add_card.expiration'|trans }}</span>
+                <input type="text" size="2" data-stripe="exp-month" name="month"/>
+            </label>
+            <span> / </span>
+            <input type="text" size="4" data-stripe="exp-year" name="year"/>
+        </div>
+
+        <button type="submit">{{ 'payment.add_card.cta'|trans }}</button>
+    </form>
+    {% block lower_card_form %}
+    {% endblock %}
+
+{% endblock %}

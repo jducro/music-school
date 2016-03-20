@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class LessonRepository extends EntityRepository
 {
 	/**
-	 * @param $level_id
+	 * @param string $level_slug
 	 * @return \Doctrine\Common\Collections\Collection
 	 */
 	public function getLessonsByLevel($level_slug)
@@ -31,7 +31,7 @@ class LessonRepository extends EntityRepository
 	}
 
 	/**
-	 * @param $level_id
+	 * @param string $level_slug
 	 * @return \Doctrine\Common\Collections\Collection
 	 */
 	public function getTopLessonsByLevel($level_slug)

@@ -17,3 +17,11 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    #Payment
+    stripe.api_key: ~
+
+    braintree.environment: 'sandbox'
+    braintree.merchant_id: ~
+    braintree.public_key: ~
+    braintree.private_key: ~

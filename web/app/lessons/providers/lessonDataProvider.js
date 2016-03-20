@@ -3,16 +3,15 @@
     .factory('Lesson', [
       '$http',
       function LessonFactory($http) {
-        var api_root = 'api/lessons';
         return {
           find: function (lessonId) {
-            return $http.get(api_root + '/' + lessonId);
+            return $http.get(Routing.generate('lesson_by_id', {'id': lessonId}));
           },
           findAll: function () {
-            return $http.get(api_root);
+            return $http.get(Routing.generate('lessons'));
           },
           findByLevel: function (levelSlug) {
-            return $http.get(api_root + '/level/' + levelSlug);
+            return $http.get(Routing.generate('lessons_by_level', {'level_slug': levelSlug}));
           }
         }
       }
