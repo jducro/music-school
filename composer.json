@@ -2,6 +2,7 @@
     "name": "jducro/music-school",
     "license": "MIT",
     "type": "project",
+    "description": "Test project using Symfony2 and AngularJS",
     "autoload": {
         "psr-4": {
             "": "src/"

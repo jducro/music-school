@@ -29,9 +29,6 @@
 /web/bundles/
 /web/uploads/
 
-# Assets managed by Bower
-/web/assets/vendor/
-
 # PHPUnit
 /app/phpunit.xml
 /phpunit.xml
@@ -46,9 +43,5 @@
 web/bower_components
 node_modules
 
-# PHP Storm config
-.idea/*
-
-# Mac hidden files
-.DS_Store
+web/config.php
 

@@ -21,7 +21,7 @@ class PaymentController extends Controller
     /**
      * @return PaymentGatewayServiceInterface
      */
-    public function getPaymentGateway(): PaymentGatewayServiceInterface
+    protected function getPaymentGateway(): PaymentGatewayServiceInterface
     {
         return $this->paymentGateway;
     }
@@ -78,7 +78,7 @@ class PaymentController extends Controller
         $em->persist($payment);
         $em->flush();
 
-        if ($result->success != true) {
+        if ($result->success !== true) {
             throw new \Exception("braintree payment failed");
         }
 
