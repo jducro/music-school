@@ -5,30 +5,30 @@ Music school
 API
 ---
 
-### Mise en place :
+### Setup :
 
-#### Instalation des dépendances
+#### Dependencies installation
   
     composer install
     
-#### Base de données
+#### Database
 
-Définition de la connexion à la base de données dans app/config/parameters.yml (exemple dans le fichier parameters.yml.dist)
+Define database connexion in app/config/parameters.yml
 
-Création de la base de données
+Database creation
 
-    php app/console doctrine:database:create
- 
-Mise à jour du schéma
+    bin/console doctrine:database:create
 
-    php app/console doctrine:schema:update --force
+Schema update
+
+    bin/console doctrine:schema:update --force
     
-Création du jeu de test
+Data Fixtures creation
 
-    php app/console doctrine:fixtures:load
+    bin/console doctrine:fixtures:load
     
 #### Documentation 
-Documentation de l'API accessible à [/api/doc](http://julien.ducro.fr/music-school/web/api/doc)
+API doc is available at [/api/doc](http://julien.ducro.fr/music-school/web/api/doc)
 
 
 [Frontend](http://julien.ducro.fr/music-school/web/index.html)
@@ -39,5 +39,4 @@ Documentation de l'API accessible à [/api/doc](http://julien.ducro.fr/music-sch
 #### Installation des dépendances
 
     bower install
-    
     
