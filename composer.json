@@ -1,6 +1,6 @@
 {
     "name": "jducro/music-school",
-    "license": "proprietary",
+    "license": "MIT",
     "type": "project",
     "autoload": {
         "psr-4": {
