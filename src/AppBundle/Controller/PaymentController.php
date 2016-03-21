@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Service\PaymentGatewayServiceInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,7 +59,8 @@ class PaymentController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/payment/add_card", name="payment_add_card", methods={GET})
+     * @Route("/payment/add_card", name="payment_add_card")
+     * @Method({"GET"})
      * @Template()
      * @throws \Exception
      */
