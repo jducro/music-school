@@ -57,19 +57,6 @@ class PaymentController extends Controller
             ''
         );
 
-
-
-        $em = $this->getDoctrine()->getManager();
-        $payment = new Payment();
-        $payment->setUser($user);
-        $payment->setSuccess(true);
-        $payment->setDate(new \DateTime());
-        $payment->setIntegration(get_class($this->getPaymentGateway()));
-        $payment->setAmount(round($request->request->get('amount') * 100));
-        $payment->setReference($result->transaction->id);
-        $em->persist($payment);
-        $em->flush();
-
         if ($result->success !== true) {
             throw new \Exception("braintree payment failed");
         }

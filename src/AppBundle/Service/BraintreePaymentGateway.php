@@ -2,6 +2,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Payment;
 use Exception;
 use AppBundle\Entity\User;
 use Braintree\Customer as BraintreeCustomer;
@@ -9,7 +10,7 @@ use Braintree\CreditCard as BraintreeCreditCard;
 use Braintree\Configuration as BraintreeConfiguration;
 use Braintree\Transaction as BraintreeTransaction;
 
-class BraintreePaymentGateway implements PaymentGatewayServiceInterface
+class BraintreePaymentGateway extends AbstractDoctrineService implements PaymentGatewayServiceInterface
 {
     /**
      * @var string
@@ -81,7 +82,6 @@ class BraintreePaymentGateway implements PaymentGatewayServiceInterface
             foreach ($customer->paymentMethods as $card) {
                 $cards[] = [
                     'brand' => $card->cardType,
-                    'number' => 'XX ' . $card->last4,
                     'number' => $card->maskedNumber,
                     'expiration' => $card->expirationMonth . '/' . $card->expirationYear,
                     'country' => $card->customerLocation,
@@ -166,6 +166,17 @@ class BraintreePaymentGateway implements PaymentGatewayServiceInterface
                 'amount' => round($amount),
             ]
         );
+
+        $payment = new Payment();
+        $payment->setUser($user);
+        $payment->setSuccess(true);
+        $payment->setDate(new \DateTime());
+        $payment->setIntegration('braintree');
+        $payment->setAmount($amount * 100);
+        $payment->setReference($result->transaction->id);
+        $this->persist($payment);
+        $this->flush();
+
         return $result;
     }
 }
