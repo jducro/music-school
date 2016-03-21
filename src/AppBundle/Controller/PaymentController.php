@@ -21,17 +21,9 @@ class PaymentController extends Controller
     /**
      * @return PaymentGatewayServiceInterface
      */
-    public function getPaymentGateway(): PaymentGatewayServiceInterface
+    protected function getPaymentGateway(): PaymentGatewayServiceInterface
     {
         return $this->get('app.service_stripe_payment_gateway');
-    }
-
-    /**
-     * @param PaymentGatewayServiceInterface $paymentGateway
-     */
-    public function setPaymentGateway(PaymentGatewayServiceInterface $paymentGateway)
-    {
-        $this->paymentGateway = $paymentGateway;
     }
 
     /**
@@ -66,7 +58,7 @@ class PaymentController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/payment/add_card", name="payment_add_card")
+     * @Route("/payment/add_card", name="payment_add_card", methods={GET})
      * @Template()
      * @throws \Exception
      */
