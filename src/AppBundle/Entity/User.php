@@ -3,7 +3,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * User
@@ -11,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="app_users")
  * @ORM\Entity
  */
-class User
+class User implements AdvancedUserInterface
 {
     /**
      * @var integer
@@ -32,6 +34,13 @@ class User
     /**
      * @var string
      *
+     * @ORM\Column(name="name", type="string", length=64)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="password", type="string", length=64)
      */
     private $password;
@@ -46,12 +55,19 @@ class User
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_active", type="boolean")
+     * @ORM\Column(name="active", type="boolean")
      */
-    private $is_active;
+    private $active;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection $roles
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", inversedBy="users")
+     */
+    private $roles;
+
+    /**
+     * @var Collection $lessons
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Lesson", inversedBy="users")
      * @ORM\JoinTable(name="users_lessons",
@@ -66,11 +82,15 @@ class User
     private $lessons;
 
     /**
+     * @var string $stripeCustomerId
+     *
      * @ORM\Column(type="string", nullable=true)
      */
     protected $stripeCustomerId = null;
 
     /**
+     * @var string $braintreeCustomerId
+     *
      * @ORM\Column(type="string", nullable=true)
      */
     protected $braintreeCustomerId = null;
@@ -118,6 +138,22 @@ class User
     /**
      * @return string
      */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
     public function getPassword()
     {
         return $this->password;
@@ -145,22 +181,23 @@ class User
     public function setEmail($email)
     {
         $this->email = $email;
+        $this->setUsername($email);
     }
 
     /**
      * @return boolean
      */
-    public function isIsActive()
+    public function isActive()
     {
-        return $this->is_active;
+        return $this->active;
     }
 
     /**
-     * @param boolean $is_active
+     * @param boolean $active
      */
-    public function setIsActive($is_active)
+    public function setActive($active)
     {
-        $this->is_active = $is_active;
+        $this->active = $active;
     }
 
     /**
@@ -211,6 +248,63 @@ class User
         $this->braintreeCustomerId = $braintreeCustomerId;
     }
 
+    public function eraseCredentials()
+    {
+    }
+
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function isEnabled()
+    {
+        return $this->active;
+    }
+
+    public function getSalt()
+    {
+        return 'YPWuEZNxr8TKijAtv7';
+    }
+
+    public function getRoles()
+    {
+        $rolesArray = [];
+        foreach ($this->roles->toArray() as $role) {
+            if ($role instanceof  Role) {
+                $rolesArray[] = $role->getRole();
+            }
+        }
+        return $rolesArray;
+    }
+
+    public function setRoles(Collection $roles)
+    {
+        $this->roles = $roles;
+    }
+
+    public function addRole(Role $role)
+    {
+        if (!$this->roles->contains($role)) {
+            $this->roles->add($role);
+        }
+
+    }
+
+    public function removeRole(Role $role)
+    {
+        $this->roles->removeElement($role);
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
 
 }
 
