@@ -1,0 +1,35 @@
+parameters:
+#    parameter_name: value
+
+services:
+    symfony.controller:
+        class: Symfony\Bundle\FrameworkBundle\Controller\Controller
+        calls:
+            - [setContainer, [ '@service_container' ] ]
+
+#Controllers
+    app.controller_payment:
+        class: AppBundle\Controller\PaymentController
+        parent: 'symfony.controller'
+        lazy: true
+        calls:
+            - [setPaymentGateway, ['@app.service_stripe_payment_gateway']]
+
+#Services
+    app.service_stripe_payment_gateway:
+        class: AppBundle\Service\StripePaymentGateway
+        lazy: true
+        calls:
+            - [setStripeApiKey, ['%stripe.api_key%']]
+            - [setManager, ['@doctrine.orm.entity_manager']]
+            - [setRepository, ['AppBundle\Entity\Payment']]
+    app.service_braintree_payment_gateway:
+        class: AppBundle\Service\BraintreePaymentGateway
+        lazy: true
+        calls:
+            - [setBraintreeEnvironment, ['%braintree.environment%']]
+            - [setBraintreeMerchantId, ['%braintree.merchant_id%']]
+            - [setBraintreePublicKey, ['%braintree.public_key%']]
+            - [setBraintreePrivateKey, ['%braintree.private_key%']]
+            - [setManager, ['@doctrine.orm.entity_manager']]
+            - [setRepository, ['AppBundle\Entity\Payment']]

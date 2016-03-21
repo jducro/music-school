@@ -31,7 +31,8 @@
         "stripe/stripe-php": "v3.4.0",
         "braintree/braintree_php": "^2.39|^3.0",
         "hwi/oauth-bundle": "dev-master",
-        "friendsofsymfony/jsrouting-bundle": "^1.6"
+        "friendsofsymfony/jsrouting-bundle": "^1.6",
+        "symfony/security-acl": "^3.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

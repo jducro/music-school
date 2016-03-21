@@ -2,6 +2,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Payment;
 use \Exception;
 use AppBundle\Entity\User;
 use Stripe\Customer as StripeCustomer;
@@ -9,7 +10,7 @@ use Stripe\Charge as StripeCharge;
 use Stripe\Card as StripeCard;
 use Stripe\Stripe;
 
-class StripePaymentGateway implements PaymentGatewayServiceInterface
+class StripePaymentGateway extends AbstractDoctrineService implements PaymentGatewayServiceInterface
 {
     /**
      * @var string
@@ -104,17 +105,28 @@ class StripePaymentGateway implements PaymentGatewayServiceInterface
     /**
      * @param \AppBundle\Entity\User $user
      * @param float $amount
+     * @param string $description
      * @throws Exception
      * @return boolean
      */
     public function chargeUser(User $user, float $amount, $description)
     {
-        $result = \Stripe\Charge::create([
+        $result = StripeCharge::create([
             "amount"        => round($amount * 100),
             "currency"      => "gbp",
             "customer"      => $this->getCustomerId($user),
             "description"   => $description,
         ]);
+
+        $payment = new Payment();
+        $payment->setUser($user);
+        $payment->setSuccess(true);
+        $payment->setDate(new \DateTime());
+        $payment->setIntegration('stripe');
+        $payment->setAmount($amount * 100);
+        $payment->setReference($result->id);
+        $this->persist($payment);
+        $this->flush();
 
         if ($result->status != "succeeded") {
             throw new Exception("stripe payment failed");

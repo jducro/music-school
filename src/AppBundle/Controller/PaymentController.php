@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use \RuntimeException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class PaymentController extends Controller
 {
@@ -21,9 +22,9 @@ class PaymentController extends Controller
     /**
      * @return PaymentGatewayServiceInterface
      */
-    protected function getPaymentGateway(): PaymentGatewayServiceInterface
+    public function getPaymentGateway(): PaymentGatewayServiceInterface
     {
-        return $this->paymentGateway;
+        return $this->get('app.service_stripe_payment_gateway');
     }
 
     /**
@@ -56,23 +57,14 @@ class PaymentController extends Controller
             ''
         );
 
-        $em = $this->getDoctrine()->getManager();
-        $payment = new Payment();
-        $payment->setUser($user);
-        $payment->setSuccess(true);
-        $payment->setDate(new \DateTime());
-        $payment->setIntegration('stripe');
-        $payment->setAmount(round($request->request->get('amount') * 100));
-        $payment->setReference($result->id);
-        $em->persist($payment);
-        $em->flush();
+
 
         $em = $this->getDoctrine()->getManager();
         $payment = new Payment();
         $payment->setUser($user);
         $payment->setSuccess(true);
         $payment->setDate(new \DateTime());
-        $payment->setIntegration('braintree');
+        $payment->setIntegration(get_class($this->getPaymentGateway()));
         $payment->setAmount(round($request->request->get('amount') * 100));
         $payment->setReference($result->transaction->id);
         $em->persist($payment);
@@ -88,6 +80,7 @@ class PaymentController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/payment/add_card", name="payment_add_card")
      * @Template()
      * @throws \Exception
      */
@@ -117,7 +110,6 @@ class PaymentController extends Controller
     }
 
     /**
-     * @param int $invoiceId
      * @throws HttpException|RuntimeException
      * @Template()
      *
